@@ -63,6 +63,7 @@ class LoadOBJ ():
             #parse what type of line the current line is
             if line.startswith('#'): ####This section can be compressed
 #                current_line_type = "#" #example should be in all compressed itteratoins
+                s
                 geometry_line_type_repeated = 0
             elif line.startswith('mtllib'):
                 geometry_line_type_repeated = 0
@@ -80,6 +81,8 @@ class LoadOBJ ():
                 current_line_type = line[:2]
 
                 #figure out if we need to increase geometry_line_type_repeated
+                #TODO add a switch so any geometry lines can increase 
+                ##geometry_line_type_repeated, to work around MeshLabs formating
                 if current_line_type == pervious_line_type:
                     geometry_line_type_repeated += 1
 #                    print 'line same as previous'
