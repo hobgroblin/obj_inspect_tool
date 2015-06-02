@@ -20,10 +20,10 @@ class LoadOBJ ():
     def __init__ (self, obj_path,truncated_path = False):
         print self
 #        print "OBJ instance " + u(self) + " created"
-#        self.bounding_box_max = #bounding_box_max # 3 float varible list
-#        self.bounding_box_min = bounding_box_min # 3 float varible list
-#        self.uv_bounding_box_max = uv_bounding_box_max #2 float varible list
-#        self.uv_bounding_box_min = uv_bounding_box_min #2 float varible list
+#        self.bounding_box_max = #bounding_box_max # 3 float variable list
+#        self.bounding_box_min = bounding_box_min # 3 float variable list
+#        self.uv_bounding_box_max = uv_bounding_box_max #2 float variable list
+#        self.uv_bounding_box_min = uv_bounding_box_min #2 float variable list
 #        self.truncated_OBJ = truncated_OBJ # text file
 #        self.vertices_count = vertices_count
 #        self.faces_count = faces_count
@@ -33,8 +33,8 @@ class LoadOBJ ():
 #        self.other_csv_names = other_csv_names
 #        self.objects = objects # list of stirngs
 #        self.groups = groups # list of stirngs
-#        self.mtl_file = mtl_file # list of stirngs ./file name, same as obj
-#        self.materials = materials # list of string
+#        self.mtl_file = mtl_file # list of strings ./file name, same as obj
+#        self.materials = materials # list of strings
 
         #if a path was not passed to the class defineing the path for the truncated file
         #then the file name will default ot bj_path[:-4]+"truncated_path.txt"
@@ -45,10 +45,10 @@ class LoadOBJ ():
         #create a writeable file to write the truncated file to
         truncated_obj_file = open(truncated_path, 'w')
 
-        #set up nesscary varibles
+        #set up neceesary varibles
         current_line_type = 'none'
         pervious_line_type = 'none'
-        grometry_line_type = 'none'
+        geometry_line_type = 'none'
         geometry_line_type_repeated = 0
         obj_file = open(obj_path, 'r') #open file in read mode
 
@@ -107,10 +107,10 @@ class LoadOBJ ():
             #that has repeted for more than 3 lines
             #TODO only write a new type of geometry line once, reset
             #count after each non-geometry line is called
-            # TODO effecenty can be gained by the if statement being
+            # TODO effeciency can be gained by the if statement being
             #for values > 3, thus skipping the other 2 steps most of the tiem
-            #even better don't incriment past a certain poirnt
-            #save the add and possibly more expensive comperison?
+            #even better don't increment past a certain poirnt
+            #save the add and possibly more expensive comparison?
             if geometry_line_type_repeated < 3:
                 truncated_obj_file.write(line)
             elif geometry_line_type_repeated == 3:
