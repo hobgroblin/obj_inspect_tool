@@ -67,23 +67,18 @@ class LoadOBJ ():
             print 'geo_object'
         def group():
             geometry_line_type_repeated = 0
-            
         def s():
             geometry_line_type_repeated = 0
-            
         def v():
             pass
-            
         def vn():
             pass
-            
         def f():
             pass
-            
         def vt():
             pass
 
-#dictionary to call functions based on line flag
+        #dictionary to call functions based on line flag
         dictionary = {
             '#': comment,
             'mtllib': mtllib,
@@ -97,30 +92,35 @@ class LoadOBJ ():
             'vt': vt
             }
 
-        #itterate over the obj file
+        #itterate over the obj file line by line
         for line in obj_file:
-            #split the flag off the front of the line
-            #parse what type of line the current line is
+            #find the type of the current line
             #by spliting the line on whitespace and calling the first element
             current_line_type = line.split()[0]
             #call the function based on the line type
-            #should the functions be in a different file?
+            #TODO should the functions be in a different file?
             dictionary[current_line_type]()
             
 
 
-            #write line to the truncated file unless its a geometry line that has
-            #repeted for more than 3 lines
-            if geometry_line_type_repeated < 3: #effecenty can be gained by if statement being for values > 3, thus skipping the other 2 steps, even better don't incriment and save the add and possibly more expensive comperison?
+            #write line to the truncated file unless its a geometry line
+            #that has repeted for more than 3 lines
+            #TODO only write a new type of geometry line once, reset
+            #count after each non-geometry line is called
+            # TODO effecenty can be gained by the if statement being
+            #for values > 3, thus skipping the other 2 steps most of the tiem
+            #even better don't incriment past a certain poirnt
+            #save the add and possibly more expensive comperison?
+            if geometry_line_type_repeated < 3:
                 truncated_obj_file.write(line)
             elif geometry_line_type_repeated == 3:
                 truncated_obj_file.write('...\n')
 
 
 
-                #figure out if we need to increase geometry_line_type_repeated
-                #TODO add a switch so any geometry lines can increase 
-                ##geometry_line_type_repeated, to work around MeshLabs formating
+
+##TODO add a switch so any geometry lines can increase 
+##geometry_line_type_repeated, to work around MeshLabs formating
 ##only list the first instance of a geometry type in the truncated file, then ...
 ##keep track of how many instances there are of each
 ##the section should look like:
@@ -134,7 +134,7 @@ class LoadOBJ ():
 ##The section had:
 ##456 face (f) lines
 ##345 vertice (v) lines
-                
+            #figure out if we need to increase geometry_line_type_repeated
             if current_line_type == pervious_line_type:
                 geometry_line_type_repeated += 1
 #                print 'line same as previous'
