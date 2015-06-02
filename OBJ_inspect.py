@@ -1,3 +1,5 @@
+import obj_line_tool
+
 class LoadOBJ ():
     """Looks through OBJ file and extracts key information including
     3D bounding box
@@ -17,7 +19,7 @@ class LoadOBJ ():
 
     def __init__ (self, obj_path,truncated_path = False):
         print self
-#        print "OBJ instance "+self+"created"
+#        print "OBJ instance " + u(self) + " created"
 #        self.bounding_box_max = #bounding_box_max # 3 float varible list
 #        self.bounding_box_min = bounding_box_min # 3 float varible list
 #        self.uv_bounding_box_max = uv_bounding_box_max #2 float varible list
@@ -49,53 +51,102 @@ class LoadOBJ ():
         grometry_line_type = 'none'
         geometry_line_type_repeated = 0
         obj_file = open(obj_path, 'r') #open file in read mode
-#        print (str(obj_file)+" opened")
+
+        #functions to act on each line type
+        def comment():
+            geometry_line_type_repeated = 0
+            print 'comment'
+        def mtllib():
+            geometry_line_type_repeated = 0
+            print 'mtlib'
+        def usemtl():
+            geometry_line_type_repeated = 0
+            print 'usemtl'
+        def geo_object():
+            geometry_line_type_repeated = 0
+            print 'geo_object'
+        def group():
+            geometry_line_type_repeated = 0
+            
+        def s():
+            geometry_line_type_repeated = 0
+            
+        def v():
+            pass
+            
+        def vn():
+            pass
+            
+        def f():
+            pass
+            
+        def vt():
+            pass
+
+#dictionary to call functions based on line flag
+        dictionary = {
+            '#': comment,
+            'mtllib': mtllib,
+            'usemtl': usemtl,
+            'o': geo_object,
+            'g': group,
+            's': s,
+            'v': v,
+            'vn': vn,
+            'f': f,
+            'vt': vt
+            }
 
         #itterate over the obj file
         for line in obj_file:
+            #split the flag off the front of the line
+            #parse what type of line the current line is
+            #by spliting the line on whitespace and calling the first element
+            current_line_type = line.split()[0]
+            #call the function based on the line type
+            #should the functions be in a different file?
+            dictionary[current_line_type]()
+            
+
+
             #write line to the truncated file unless its a geometry line that has
             #repeted for more than 3 lines
-            if geometry_line_type_repeated < 3:
+            if geometry_line_type_repeated < 3: #effecenty can be gained by if statement being for values > 3, thus skipping the other 2 steps, even better don't incriment and save the add and possibly more expensive comperison?
                 truncated_obj_file.write(line)
             elif geometry_line_type_repeated == 3:
                 truncated_obj_file.write('...\n')
 
-            #parse what type of line the current line is
-            if line.startswith('#'): ####This section can be compressed
-#                current_line_type = "#" #example should be in all compressed itteratoins
-                s
-                geometry_line_type_repeated = 0
-            elif line.startswith('mtllib'):
-                geometry_line_type_repeated = 0
-            elif line.startswith('usemtl'):
-                geometry_line_type_repeated = 0
-            elif line.startswith('o'):
-                geometry_line_type_repeated = 0
-            elif line.startswith('g'):
-                geometry_line_type_repeated = 0
-            elif line.startswith('s 1'):
-                geometry_line_type_repeated = 0
-            elif line.startswith('s off'):
-                geometry_line_type_repeated = 0
-            else:
-                current_line_type = line[:2]
+
 
                 #figure out if we need to increase geometry_line_type_repeated
                 #TODO add a switch so any geometry lines can increase 
                 ##geometry_line_type_repeated, to work around MeshLabs formating
-                if current_line_type == pervious_line_type:
-                    geometry_line_type_repeated += 1
-#                    print 'line same as previous'
-#                    print geometry_line_type_repeated
-                else:
-                    geometry_line_type_repeated = 0
+##only list the first instance of a geometry type in the truncated file, then ...
+##keep track of how many instances there are of each
+##the section should look like:
+##
+##f 345 264 347
+##...
+##v 234 253 3452
+##...
+##vt 343 234 345
+##...
+##The section had:
+##456 face (f) lines
+##345 vertice (v) lines
+                
+            if current_line_type == pervious_line_type:
+                geometry_line_type_repeated += 1
+#                print 'line same as previous'
+#                print geometry_line_type_repeated
+            else:
+                geometry_line_type_repeated = 0
 #                    print current_line_type
 #                    print pervious_line_type
-#                    print 'no repeat'
+                print 'no repeat'
                 
             pervious_line_type = current_line_type
 
-#            if line.startswith("v "):  
 
         obj_file.close
         truncated_obj_file.close
