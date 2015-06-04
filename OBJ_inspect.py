@@ -77,9 +77,11 @@ class LoadOBJ ():
             pass
         def vt():
             pass
-
+        def new_flag_type():
+            print 'new flag type found:'
+            print current_line_type
         #dictionary to call functions based on line flag
-        dictionary = {
+        line_flag_function_dictionary = {
             '#': comment,
             'mtllib': mtllib,
             'usemtl': usemtl,
@@ -99,8 +101,8 @@ class LoadOBJ ():
             current_line_type = line.split()[0]
             #call the function based on the line type
             #TODO should the functions be in a different file?
-            dictionary[current_line_type]()
-            
+            line_flag_function_dictionary.get(current_line_type,new_flag_type)()
+
 
 
             #write line to the truncated file unless its a geometry line
@@ -119,7 +121,7 @@ class LoadOBJ ():
 
 
 
-##TODO add a switch so any geometry lines can increase 
+##TODO add a switch so any geometry lines can increase
 ##geometry_line_type_repeated, to work around MeshLabs formating
 ##only list the first instance of a geometry type in the truncated file, then ...
 ##keep track of how many instances there are of each
@@ -144,7 +146,7 @@ class LoadOBJ ():
 #                    print current_line_type
 #                    print pervious_line_type
                 print 'no repeat'
-                
+
             pervious_line_type = current_line_type
 
 
