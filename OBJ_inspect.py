@@ -56,84 +56,21 @@ class LoadOBJ ():
         has_face_flag_come_up = False
         has_uv_vertex_come_up = False
 
-        def reset_all_has_geometry_type_flag_come_up():
-            has_vertex_count_flag_come_up = False
-            has_vertex_normal_flag_come_up = False
-            has_face_flag_come_up = False
-            has_uv_vertex_come_up = False
         #functions to act on each line type
         #TODO should the functions be in a different file?
-        def comment():
-            geometry_line_type_repeated = 0
-            is_line_type_geometry = False
-            print 'comment'
-            reset_all_has_geometry_type_flag_come_up
-        def mtllib():
-            geometry_line_type_repeated = 0
-            is_line_type_geometry = False
-            print 'mtlib'
-            reset_all_has_geometry_type_flag_come_up
-        def usemtl():
-            geometry_line_type_repeated = 0
-            is_line_type_geometry = False
-            print 'usemtl'
-            reset_all_has_geometry_type_flag_come_up
-        def geo_object():
-            geometry_line_type_repeated = 0
-            is_line_type_geometry = False
-            print 'geo_object'
-            reset_all_has_geometry_type_flag_come_up
-        def group():
-            geometry_line_type_repeated = 0
-            is_line_type_geometry = False
-            reset_all_has_geometry_type_flag_come_up
-        def s():
-            geometry_line_type_repeated = 0
-            is_line_type_geometry = False
-            reset_all_has_geometry_type_flag_come_up
-## Geometry flags have a lot of repeating features, can this be compressed
-## and remain readable?
-        def v():
-            self.vertex_count += 1
-            is_line_type_geometry = True
-            global has_vertex_count_flag_come_up
-            if has_vertex_count_flag_come_up == False:
-                truncated_obj_file.write(line)
-                has_vertex_count_flag_come_up = True
-        def vn():
-            self.vertex_normal_count += 1
-            is_line_type_geometry = True
-            if has_vertex_normal_flag_come_up == False:
-                truncated_obj_file.write(line)
-                has_vertex_normal_flag_come_up = True
-        def f():
-            self.face_count += 1
-            is_line_type_geometry = True
-            if has_face_flag_come_up == False:
-                truncated_obj_file.write(line)
-                has_face_flag_come_up = True
-        def vt():
-            self.uv_vertex_count += 1
-            is_line_type_geometry = True
-            if has_uv_vertex_come_up == False:
-                truncated_obj_file.write(line)
-                has_uv_vertex_come_up = True
-        def new_flag_type():
-            print 'new flag type found:'
-            print current_line_type
 
         #dictionary to call functions based on line flag
         line_flag_function_dictionary = {
-            '#': comment,
-            'mtllib': mtllib,
-            'usemtl': usemtl,
-            'o': geo_object,
-            'g': group,
-            's': s,
-            'v': v,
-            'vn': vn,
-            'f': f,
-            'vt': vt
+            '#': 'comment',
+            'mtllib': 'mtllib',
+            'usemtl': 'usemtl',
+            'o': 'geo_object',
+            'g': 'group',
+            's': 's',
+            'v': 'v',
+            'vn': 'vn',
+            'f': 'f',
+            'vt': 'vt'
             }
 
         #itterate over the obj file line by line
@@ -141,9 +78,90 @@ class LoadOBJ ():
             #find the type of the current line
             #by spliting the line on whitespace and calling the first element
             current_line_type = line.split()[0]
-
+#            print line_flag_function_dictionary.get(current_line_type, 'new_flag_type')
             #call the function based on the line type
-            line_flag_function_dictionary.get(current_line_type,new_flag_type)()
+
+            if line_flag_function_dictionary.get(current_line_type, 'new_flag_type') == 'comment':
+                geometry_line_type_repeated = 0
+                is_line_type_geometry = False
+                print line
+                has_vertex_count_flag_come_up = False
+                has_vertex_normal_flag_come_up = False
+                has_face_flag_come_up = False
+                has_uv_vertex_come_up = False
+            if line_flag_function_dictionary.get(current_line_type,'new_flag_type') == 'mtllib':
+                geometry_line_type_repeated = 0
+                is_line_type_geometry = False
+                print line
+                has_vertex_count_flag_come_up = False
+                has_vertex_normal_flag_come_up = False
+                has_face_flag_come_up = False
+                has_uv_vertex_come_up = False
+            if line_flag_function_dictionary.get(current_line_type,"new_flag_type") == 'usemtl':
+                geometry_line_type_repeated = 0
+                is_line_type_geometry = False
+                print line
+                has_vertex_count_flag_come_up = False
+                has_vertex_normal_flag_come_up = False
+                has_face_flag_come_up = False
+                has_uv_vertex_come_up = False
+            if line_flag_function_dictionary.get(current_line_type,"new_flag_type") == ' geo_object':
+                geometry_line_type_repeated = 0
+                is_line_type_geometry = False
+                print line
+                has_vertex_count_flag_come_up = False
+                has_vertex_normal_flag_come_up = False
+                has_face_flag_come_up = False
+                has_uv_vertex_come_up = False
+            if line_flag_function_dictionary.get(current_line_type, 'new_flag_type') == 'group':
+                geometry_line_type_repeated = 0
+                is_line_type_geometry = False
+                print line
+                has_vertex_count_flag_come_up = False
+                has_vertex_normal_flag_come_up = False
+                has_face_flag_come_up = False
+                has_uv_vertex_come_up = False
+            if line_flag_function_dictionary.get(current_line_type,"new_flag_type") == 's':
+                geometry_line_type_repeated = 0
+                is_line_type_geometry = False
+                print line
+                has_vertex_count_flag_come_up = False
+                has_vertex_normal_flag_come_up = False
+                has_face_flag_come_up = False
+                has_uv_vertex_come_up = False
+    ## Geometry flags have a lot of repeating features, can this be compressed
+    ## and remain readable?
+            if line_flag_function_dictionary.get(current_line_type,"new_flag_type") == 'v':
+                self.vertex_count += 1
+                is_line_type_geometry = True
+                if has_vertex_count_flag_come_up == False:
+                    truncated_obj_file.write(line)
+                    print line
+                    has_vertex_count_flag_come_up = True
+            if line_flag_function_dictionary.get(current_line_type,"new_flag_type") == 'vn':
+                self.vertex_normal_count += 1
+                is_line_type_geometry = True
+                if has_vertex_normal_flag_come_up == False:
+                    truncated_obj_file.write(line)
+                    print line
+                    has_vertex_normal_flag_come_up = True
+            if line_flag_function_dictionary.get(current_line_type,"new_flag_type") == 'f':
+                self.face_count += 1
+                is_line_type_geometry = True
+                if has_face_flag_come_up == False:
+                    truncated_obj_file.write(line)
+                    print line
+                    has_face_flag_come_up = True
+            if line_flag_function_dictionary.get(current_line_type,"new_flag_type") == 'vt':
+                self.uv_vertex_count += 1
+                is_line_type_geometry = True
+                if has_uv_vertex_come_up == False:
+                    truncated_obj_file.write(line)
+                    print line
+                    has_uv_vertex_come_up = True
+            if line_flag_function_dictionary.get(current_line_type,"new_flag_type") == 'new_flag_type':
+                print 'new flag type found:'
+                print current_line_type
 
 
 
@@ -194,6 +212,6 @@ class LoadOBJ ():
 
         obj_file.close
         truncated_obj_file.close
-        print self.faces_count
+        print self.face_count
 #obj_file_path = 'D:\OBJ test files for OBJinspect\MeshLab\MeshLabgreekSlave.final.div1.obj'
 #obj_file_object = OBJ_inspect.LoadOBJ(obj_path)
