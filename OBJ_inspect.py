@@ -52,6 +52,7 @@ class LoadOBJ ():
         geometry_line_type_repeated = 0
         obj_file = open(obj_path, 'r') #open file in read mode
 <<<<<<< HEAD
+<<<<<<< HEAD
         has_vertex_count_flag_come_up = False
         has_vertex_normal_flag_come_up = False
         has_face_flag_come_up = False
@@ -63,6 +64,10 @@ class LoadOBJ ():
 =======
 
         #functions to act on each line type
+=======
+
+        #functions to act on each line type
+>>>>>>> parent of 1dae6d8... Broken code!
         def comment():
             geometry_line_type_repeated = 0
             print 'comment'
@@ -90,6 +95,9 @@ class LoadOBJ ():
         def new_flag_type():
             print 'new flag type found:'
             print current_line_type
+<<<<<<< HEAD
+>>>>>>> parent of 1dae6d8... Broken code!
+=======
 >>>>>>> parent of 1dae6d8... Broken code!
         #dictionary to call functions based on line flag
         line_flag_function_dictionary = {
@@ -110,6 +118,7 @@ class LoadOBJ ():
             #find the type of the current line
             #by spliting the line on whitespace and calling the first element
             current_line_type = line.split()[0]
+<<<<<<< HEAD
 <<<<<<< HEAD
 #            print line_flag_function_dictionary.get(current_line_type, 'new_flag_type')
             #call the function based on the line type
@@ -196,6 +205,8 @@ class LoadOBJ ():
                 print 'new flag type found:'
                 print current_line_type
 =======
+=======
+>>>>>>> parent of 1dae6d8... Broken code!
             #call the function based on the line type
             #TODO should the functions be in a different file?
             line_flag_function_dictionary.get(current_line_type,new_flag_type)()
@@ -251,7 +262,11 @@ class LoadOBJ ():
         obj_file.close
         truncated_obj_file.close
 <<<<<<< HEAD
+<<<<<<< HEAD
         print self.face_count
+=======
+
+>>>>>>> parent of 1dae6d8... Broken code!
 =======
 
 >>>>>>> parent of 1dae6d8... Broken code!
